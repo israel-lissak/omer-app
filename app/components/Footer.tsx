@@ -49,17 +49,30 @@ const SettingsMenu = ({ isOpen, onClose }: SettingsMenuProps) => {
   }, [isOpen, onClose]);
 
   const handleInstall = async () => {
-    if (!deferredPrompt || isInstalled || !canInstall) return;
+    if (!deferredPrompt) {
+      console.error('Deferred prompt is not available.');
+      return;
+    }
+
+    if (isInstalled) {
+      console.log('The app is already installed.');
+      return;
+    }
+
+    if (!canInstall) {
+      console.log('Installation is not supported on this device.');
+      return;
+    }
 
     try {
       setIsInstalling(true);
       await deferredPrompt.prompt();
       const choiceResult = await deferredPrompt.userChoice;
-      
+
       if (choiceResult.outcome === 'accepted') {
-        console.log('User accepted the install prompt');
+      console.log('User accepted the install prompt');
       } else {
-        console.log('User dismissed the install prompt');
+      console.log('User dismissed the install prompt');
       }
     } catch (error) {
       console.error('Error during installation:', error);

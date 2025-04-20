@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 
 export default function InstallPrompt() {
@@ -9,6 +10,7 @@ export default function InstallPrompt() {
     isInstalled, 
     setIsInstalled
   } = useTheme();
+  const [isPromptVisible, setIsPromptVisible] = useState(true); // State to control popup visibility
 
   const handleInstallClick = async () => {
     if (!deferredPrompt) return;
@@ -23,15 +25,17 @@ export default function InstallPrompt() {
       setIsInstalled(true);
     }
     
-    // Clear the deferred prompt
+    // Clear the deferred prompt after the user makes a choice
     setDeferredPrompt(null);
+    setIsPromptVisible(false); // Close the popup
   };
 
   const handleDismiss = () => {
-    setDeferredPrompt(null);
+    console.log('User dismissed the install prompt UI');
+    setIsPromptVisible(false); // Close the popup
   };
 
-  if (isInstalled || !deferredPrompt) return null;
+  if (isInstalled || !deferredPrompt || !isPromptVisible) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 dark:bg-black/70 z-50">
@@ -57,4 +61,4 @@ export default function InstallPrompt() {
       </div>
     </div>
   );
-} 
+}
