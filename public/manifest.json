@@ -1,6 +1,6 @@
 {
-  "name": "Omer App",
-  "short_name": "Omer",
+  "name": "ספירת העומר",
+  "short_name": "ספירת העומר",
   "description": "Omer App",
   "start_url": "/",
   "display": "standalone",
