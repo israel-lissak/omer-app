@@ -18,13 +18,19 @@ interface SettingsMenuProps {
 }
 
 const SettingsMenu = ({ isOpen, onClose }: SettingsMenuProps) => {
-  const { isDarkMode, toggleDarkMode } = useTheme();
+  const { 
+    isDarkMode, 
+    toggleDarkMode,
+    deferredPrompt,
+    isInstalled,
+    canInstall
+  } = useTheme();
+  const [isInstalling, setIsInstalling] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        // Check if the click was on the settings button
         const settingsButton = document.querySelector('button[aria-label="Settings"]');
         if (settingsButton && settingsButton.contains(event.target as Node)) {
           return;
@@ -42,6 +48,27 @@ const SettingsMenu = ({ isOpen, onClose }: SettingsMenuProps) => {
     };
   }, [isOpen, onClose]);
 
+  const handleInstall = async () => {
+    if (!deferredPrompt || isInstalled || !canInstall) return;
+
+    try {
+      setIsInstalling(true);
+      await deferredPrompt.prompt();
+      const choiceResult = await deferredPrompt.userChoice;
+      
+      if (choiceResult.outcome === 'accepted') {
+        console.log('User accepted the install prompt');
+      } else {
+        console.log('User dismissed the install prompt');
+      }
+    } catch (error) {
+      console.error('Error during installation:', error);
+    } finally {
+      setIsInstalling(false);
+      onClose();
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -57,6 +84,7 @@ const SettingsMenu = ({ isOpen, onClose }: SettingsMenuProps) => {
               className={`w-12 h-6 rounded-full relative transition-colors duration-200 ${
                 isDarkMode ? 'bg-gray-600' : 'bg-gray-200'
               }`}
+              aria-label="Toggle dark mode"
             >
               <div className={`absolute right-1 top-1 w-4 h-4 rounded-full transition-transform duration-200 ${
                 isDarkMode ? 'bg-white translate-x-[-1.5rem]' : 'bg-white'
@@ -65,33 +93,38 @@ const SettingsMenu = ({ isOpen, onClose }: SettingsMenuProps) => {
           </div>
         </div>
         
+        <div className="flex items-center justify-between text-gray-800 dark:text-gray-100">
+          <span>התקן אפליקציה</span>
+          <div className="flex items-center">
+            <button 
+              onClick={handleInstall}
+              className={`py-2 px-4 rounded-lg shadow-md transition-all transform hover:scale-105 ${
+                isInstalled || !canInstall
+                  ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                  : isInstalling
+                  ? 'bg-gray-400 dark:bg-gray-500 text-white cursor-wait'
+                  : 'bg-gray-800 dark:bg-gray-700 hover:bg-gray-700 dark:hover:bg-gray-600 text-white'
+              }`}
+              disabled={isInstalled || !canInstall || isInstalling}
+              aria-label="Install app"
+            >
+              {isInstalling ? 'מתקין...' : isInstalled ? 'מותקן' : canInstall ? 'התקן' : 'לא נתמך'}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-
 const Footer = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const omer = getOmerCount();
-  const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    const handleClick = (event: MouseEvent) => {
-      if (buttonRef.current?.contains(event.target as Node)) {
-        setIsSettingsOpen(prev => !prev);
-        return;
-      }
-      
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsSettingsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, []);
+  const toggleSettings = () => {
+    setIsSettingsOpen(prev => !prev);
+  };
 
   return (
     <footer className="fixed bottom-0 left-0 right-0 bg-gray-100 dark:bg-gray-800 p-4 flex justify-between items-center shadow-md">
@@ -100,7 +133,9 @@ const Footer = () => {
       </div>
       <button
         ref={buttonRef}
+        onClick={toggleSettings}
         className="text-gray-800 dark:text-gray-100 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+        aria-label="Settings"
       >
         <IoSettingsOutline size={24} />
       </button>

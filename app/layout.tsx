@@ -1,6 +1,7 @@
 import '@/styles/globals.css'
 import Footer from './components/Footer'
 import { ThemeProvider } from './context/ThemeContext'
+import InstallPrompt from './components/InstallPrompt'
 
 export const metadata = {
   title: 'ספירת העומר',
@@ -35,6 +36,7 @@ export default function RootLayout({
         <ThemeProvider>
           {children}
           <Footer />
+          <InstallPrompt />
         </ThemeProvider>
       </body>
     </html>
