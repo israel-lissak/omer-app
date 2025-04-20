@@ -5,10 +5,23 @@ import { ThemeProvider } from './context/ThemeContext'
 export const metadata = {
   title: 'ספירת העומר',
   description: 'אפליקציה לספירת העומר',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'ספירת העומר',
+  },
   icons: {
     icon: '/omer-logo-he.png',
     apple: '/omer-logo-he.png',
   },
+}
+
+export const viewport = {
+  themeColor: '#000000',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
 }
 
 export default function RootLayout({
