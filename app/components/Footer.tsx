@@ -88,7 +88,7 @@ const SettingsMenu = ({ isOpen, onClose }: SettingsMenuProps) => {
             <button 
               onClick={toggleDarkMode}
               className={`w-12 h-6 rounded-full relative transition-colors duration-200 ${
-                isDarkMode ? 'bg-gray-600' : 'bg-gray-200'
+                isDarkMode ? 'bg-gray-600' : 'bg-gray-300'
               }`}
               aria-label="Toggle dark mode"
             >
@@ -109,7 +109,7 @@ const SettingsMenu = ({ isOpen, onClose }: SettingsMenuProps) => {
                   ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
                   : isInstalling
                   ? 'bg-gray-400 dark:bg-gray-500 text-white cursor-wait'
-                  : 'bg-gray-800 dark:bg-gray-700 hover:bg-gray-700 dark:hover:bg-gray-600 text-white'
+                  : 'bg-gray-700 dark:bg-gray-600 hover:bg-gray-600 dark:hover:bg-gray-500 text-white'
               }`}
               disabled={isInstalled || !canInstall || isInstalling}
               aria-label="Install app"
