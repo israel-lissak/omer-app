@@ -5,13 +5,6 @@ import { IoSettingsOutline } from 'react-icons/io5';
 import { useTheme } from '../context/ThemeContext';
 import { getOmerCount } from '@/lib/omer';
 
-interface OmerData {
-  count: number;
-  text: string;
-  sefirah: string;
-  date: string;
-}
-
 interface SettingsMenuProps {
   isOpen: boolean;
   onClose: () => void;
