@@ -42,15 +42,29 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [canInstall, setCanInstall] = useState(false);
   const [duskTime, setDuskTime] = useState<Date | null>(null);
 
-  // Initialize selectedCity from localStorage or default to the first city
+  // Initialize selectedCity with a default value
   const [selectedCity, setSelectedCity] = useState<City>(() => {
-    const savedCity = localStorage.getItem('selectedCity');
-    return savedCity ? JSON.parse(savedCity) : cities[0];
+    if (typeof window !== 'undefined') {
+      const savedCity = localStorage.getItem('selectedCity');
+      return savedCity ? JSON.parse(savedCity) : cities[0];
+    }
+    return cities[0]; // Fallback for SSR
   });
+  // Update selectedCity from localStorage on the client side
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedCity = localStorage.getItem('selectedCity');
+      if (savedCity) {
+        setSelectedCity(JSON.parse(savedCity));
+      }
+    }
+  }, []);
 
   // Save selectedCity to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('selectedCity', JSON.stringify(selectedCity));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('selectedCity', JSON.stringify(selectedCity));
+    }
   }, [selectedCity]);
 
   // useEffect to calculate dusk time based on selected city
