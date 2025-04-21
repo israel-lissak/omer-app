@@ -10,6 +10,8 @@ type ThemeContextType = {
   isInstalled: boolean;
   setIsInstalled: (installed: boolean) => void;
   canInstall: boolean;
+  duskTime: Date | null;
+  setDuskTime: (time: Date | null) => void;
 };
 
 interface BeforeInstallPromptEvent extends Event {
@@ -24,6 +26,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstalled, setIsInstalled] = useState(false);
   const [canInstall, setCanInstall] = useState(false);
+  const [duskTime, setDuskTime] = useState<Date | null>(null);
 
   useEffect(() => {
     const handleBeforeInstallPrompt = (e: Event) => {
@@ -95,7 +98,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       setDeferredPrompt,
       isInstalled,
       setIsInstalled,
-      canInstall
+      canInstall,
+      duskTime,
+      setDuskTime
     }}>
       {children}
     </ThemeContext.Provider>

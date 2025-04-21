@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { useTheme } from '../context/ThemeContext';
 import { getOmerCount } from '@/lib/omer';
+import SunsetPicker from './SunsetPicker';
 
 interface SettingsMenuProps {
   isOpen: boolean;
@@ -98,6 +99,8 @@ const SettingsMenu = ({ isOpen, onClose }: SettingsMenuProps) => {
             </button>
           </div>
         </div>
+
+        <SunsetPicker />
         
         <div className="flex items-center justify-between text-gray-800 dark:text-gray-100">
           <span>התקן אפליקציה</span>
