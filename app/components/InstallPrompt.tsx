@@ -31,7 +31,6 @@ export default function InstallPrompt() {
   };
 
   const handleDismiss = () => {
-    console.log('User dismissed the install prompt UI');
     setIsPromptVisible(false); // Close the popup
   };
 
