@@ -50,6 +50,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
     return cities[0]; // Fallback for SSR
   });
+
   // Update selectedCity from localStorage on the client side
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -85,6 +86,22 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     getDusk();
   }, [selectedCity]);
+
+
+  // useEffect to check theme preference on initial load
+  useEffect(() => {
+    // Check if user has a theme preference in localStorage
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      setIsDarkMode(true);
+      document.documentElement.classList.add('dark');
+    } else {
+      setIsDarkMode(false);
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
 
   const toggleDarkMode = () => {
     const newTheme = !isDarkMode;
