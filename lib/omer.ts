@@ -15,8 +15,8 @@ export function getOmerCount(): { count: number; text: string; sefirah: string, 
 
   
   if (duskTime && duskTime < new Date()) {
-    // אם עבר זמן השקיעה, נוריד יום מהספירה
-    omerDay--;
+    // אם עבר זמן השקיעה, נןסיף יום אחד
+    omerDay++;
   }
   // חיפוש הנתונים של היום מתוך ה־JSON
   const omerInfo = omerData[omerDay];

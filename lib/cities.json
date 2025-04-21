@@ -1,0 +1,9 @@
+[
+    { "name": "Tel Aviv", "displayName": "תל אביב", "lat": 32.0853, "lon": 34.7818, "tz": "Asia/Jerusalem" , "il": true },
+    { "name": "Jerusalem", "displayName": "ירושלים", "lat": 31.7683, "lon": 35.2137, "tz": "Asia/Jerusalem", "il": true },
+    { "name": "Haifa", "displayName": "חיפה", "lat": 32.7940, "lon": 34.9896, "tz": "Asia/Jerusalem", "il": true },
+    { "name": "Beersheba", "displayName": "באר שבע", "lat": 31.2518, "lon": 34.7913, "tz": "Asia/Jerusalem", "il": true },
+    { "name": "New York", "displayName": "ניו יורק", "lat": 40.7128, "lon": -74.0060, "tz": "America/New_York","il": false },
+    { "name": "London", "displayName": "לונדון", "lat": 51.5074, "lon": -0.1278, "tz": "Europe/London",  "il": false },
+    { "name": "Paris", "displayName": "פריז", "lat": 48.8566, "lon": 2.3522, "tz": "Europe/Paris",  "il": false }
+]
