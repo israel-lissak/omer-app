@@ -1,34 +1,35 @@
-import '@/styles/globals.css'
-import Footer from './components/Footer'
-import { ThemeProvider } from './context/ThemeContext'
-import InstallPrompt from './components/InstallPrompt'
+import "@/styles/globals.css";
+import Footer from "./components/Footer";
+import { ThemeProvider } from "./context/ThemeContext";
+import InstallPrompt from "./components/InstallPrompt";
+import NotificationManager from "./components/NotificationManager";
 
 export const metadata = {
-  title: 'ספירת העומר',
-  description: 'אפליקציה לספירת העומר',
-  manifest: '/manifest.json',
+  title: "ספירת העומר",
+  description: "אפליקציה לספירת העומר",
+  manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
-    statusBarStyle: 'default',
-    title: 'ספירת העומר',
+    statusBarStyle: "default",
+    title: "ספירת העומר",
   },
   icons: {
-    icon: '/omer-logo-he.png',
-    apple: '/omer-logo-he.png',
+    icon: "/omer-logo-he.png",
+    apple: "/omer-logo-he.png",
   },
-}
+};
 
 export const viewport = {
-  themeColor: '#000000',
-  width: 'device-width',
+  themeColor: "#000000",
+  width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-}
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="he" dir="rtl" suppressHydrationWarning>
@@ -37,8 +38,9 @@ export default function RootLayout({
           {children}
           <Footer />
           <InstallPrompt />
+          <NotificationManager />
         </ThemeProvider>
       </body>
     </html>
-  )
+  );
 }

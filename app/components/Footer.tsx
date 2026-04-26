@@ -5,6 +5,10 @@ import { IoSettingsOutline } from 'react-icons/io5';
 import { useTheme } from '../context/ThemeContext';
 import { getOmerCount } from '@/lib/omer';
 import SunsetPicker from './SunsetPicker';
+import {
+  isNotificationsEnabled,
+  setNotificationsEnabled,
+} from './NotificationManager';
 
 interface SettingsMenuProps {
   isOpen: boolean;
@@ -20,7 +24,55 @@ const SettingsMenu = ({ isOpen, onClose }: SettingsMenuProps) => {
     canInstall
   } = useTheme();
   const [isInstalling, setIsInstalling] = useState(false);
+  const [notifyEnabled, setNotifyEnabled] = useState(false);
+  const [notifySupported, setNotifySupported] = useState(true);
+  const [notifyBusy, setNotifyBusy] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  // Initialize the notification toggle from localStorage / browser state
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (!('Notification' in window)) {
+      setNotifySupported(false);
+      return;
+    }
+    setNotifyEnabled(
+      isNotificationsEnabled() && Notification.permission === 'granted'
+    );
+  }, [isOpen]);
+
+  const handleToggleNotifications = async () => {
+    if (!('Notification' in window)) return;
+    setNotifyBusy(true);
+    try {
+      if (notifyEnabled) {
+        // Disable
+        setNotificationsEnabled(false);
+        setNotifyEnabled(false);
+        return;
+      }
+
+      // Enable – request permission if needed
+      let permission = Notification.permission;
+      if (permission === 'default') {
+        permission = await Notification.requestPermission();
+      }
+
+      if (permission === 'granted') {
+        setNotificationsEnabled(true);
+        setNotifyEnabled(true);
+        // Force the page to reload so NotificationManager picks it up
+        // and arms the timer for tonight.
+        window.location.reload();
+      } else {
+        setNotificationsEnabled(false);
+        setNotifyEnabled(false);
+        alert('כדי לקבל התראות יש לאשר אותן בהגדרות הדפדפן');
+      }
+    } finally {
+      setNotifyBusy(false);
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -96,6 +148,30 @@ const SettingsMenu = ({ isOpen, onClose }: SettingsMenuProps) => {
               <div className={`absolute right-1 top-1 w-4 h-4 rounded-full transition-transform duration-200 ${
                 isDarkMode ? 'bg-white translate-x-[-1.5rem]' : 'bg-white'
               }`}></div>
+            </button>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between text-gray-800 dark:text-gray-100">
+          <span>תזכורת יומית בשעה 21:00</span>
+          <div className="flex items-center">
+            <button
+              onClick={handleToggleNotifications}
+              disabled={!notifySupported || notifyBusy}
+              className={`w-12 h-6 rounded-full relative transition-colors duration-200 ${
+                !notifySupported
+                  ? 'bg-gray-300 dark:bg-gray-600 opacity-50 cursor-not-allowed'
+                  : notifyEnabled
+                  ? 'bg-gray-600'
+                  : 'bg-gray-300'
+              }`}
+              aria-label="Toggle daily omer notification"
+            >
+              <div
+                className={`absolute right-1 top-1 w-4 h-4 rounded-full transition-transform duration-200 bg-white ${
+                  notifyEnabled ? 'translate-x-[-1.5rem]' : ''
+                }`}
+              ></div>
             </button>
           </div>
         </div>

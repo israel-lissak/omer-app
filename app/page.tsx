@@ -1,10 +1,11 @@
-'use client';
+"use client";
 
-import { getOmerCount } from '@/lib/omer';
-import Footer from './components/Footer';
+import { getOmerCount } from "@/lib/omer";
+import Footer from "./components/Footer";
 
 export default function Home() {
   const omer = getOmerCount();
+  const test = () => {};
 
   const fullText = `
 בָּרוּךְ אַתָּה יְיָ אֱלֹהֵינוּ מֶלֶךְ הָעוֹלָם. אֲשֶׁר קִדְּשָׁנוּ בְּמִצְוֹתָיו וְצִוָּנוּ עַל סְפִירַת הָעוֹמֶר:
@@ -28,16 +29,21 @@ ${omer?.text}
 רִבּוֹנוֹ שֶׁל עוֹלָם, אַתָּה צִוִּיתָנוּ עַל יְדֵי משֶׁה עַבְדֶּךָ לִסְפּוֹר סְפִירַת הָעוֹמֶר כְּדֵי לְטַהֲרֵנוּ מִקְלִפּוֹתֵינוּ וּמִטּוּמְאוֹתֵינוּ, כְּמוֹ שֶׁכָּתַבְתָּ בְּתוֹרָתֶךָ: וּסְפַרְתֶּם לָכֶם מִמָּחֳרַת הַשַּׁבָּת מִיוֹם הֲבִיאֲכֶם אֶת עוֹמֶר הַתְּנוּפָה שֶׁבַע שַׁבָּתוֹת תְּמִימוֹת תִּהְיֶינָה, עַד מִמָּחֳרַת הַשַּׁבָּת הַשְּׁבִיעִית תִּסְפְּרוּ חֲמִשִּׁים יוֹם, כְּדֵי שֶׁיִּטָּהֲרוּ נַפְשׁוֹת עַמְּךָ יִשְׂרָאֵל מִזֻּהֲמָתָם, וּבְכֵן יְהִי רָצוֹן מִלְּפָנֶיךָ יְיָ אֱלֹקֵינוּ וֵאלֹהֵי אֲבוֹתֵינוּ שֶׁבִּזְכוּת סְפִירַת הָעוֹמֶר שֶׁסָּפַרְתִּי הַיּוֹם, יְתֻקַּן מַה שֶׁפָּגַמְתִּי בִּסְפִירָה
 
 ${omer?.sefirah}
- 
+
  וְאֶטָּהֵר וְאֶתְקַדֵּשׁ בִּקְדֻשָּׁה שֶׁל מַעְלָה, וְעַל יְדֵי זֶה יֻשְׁפַּע שֶׁפַע רַב בְּכָל הָעוֹלָמוֹת וּלְתַקֵּן אֶת נַפְשׁוֹתֵינוּ וְרוּחוֹתֵינוּ, וְנִשְׁמוֹתֵינוּ מִכָּל סִיג וּפְגַם וּלְטַהֲרֵנוּ וּלְקַדְּשֵׁנוּ בִּקְדֻשָׁתְךָ הָעֶלְיוֹנָה, אָמֵן סֶלָה:
   `.trim();
 
   return (
     <main className="max-w-3xl mx-auto p-6 sm:p-8 pb-24 bg-white rounded-2xl shadow-lg border border-gray-200 dark:bg-gray-900 dark:border-gray-700 dark:text-white">
-      <h1 className="text-3xl font-bold text-center mb-2 text-gray-800 dark:text-gray-100">ספירת העומר</h1>
+      <h1 className="text-3xl font-bold text-center mb-2 text-gray-800 dark:text-gray-100">
+        ספירת העומר
+      </h1>
       <div className="space-y-4 text-xl leading-relaxed font-serif text-right text-gray-800 dark:text-gray-100">
-        {fullText.split('\n').map((line, i) => (
-          <p key={i} className={`${line.includes(omer?.text || '') || line.includes(omer?.sefirah || '') ? 'text-center bg-gray-100 dark:bg-gray-800 py-2 px-4 rounded-lg' : ''}`}>
+        {fullText.split("\n").map((line, i) => (
+          <p
+            key={i}
+            className={`${line.includes(omer?.text || "") || line.includes(omer?.sefirah || "") ? "text-center bg-gray-100 dark:bg-gray-800 py-2 px-4 rounded-lg" : ""}`}
+          >
             {line}
           </p>
         ))}
